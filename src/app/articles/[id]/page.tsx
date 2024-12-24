@@ -6,6 +6,8 @@ import { SingleArticle } from "@/utils/types";
 import { cookies } from "next/headers";
 import { getSingleArticle } from "@/apiCalls/articleApiCall";
 import { verifyTokenForPage } from "@/utils/verifyToken";
+// import prisma from "@/utils/db";
+// import { notFound, redirect } from "next/navigation";
 
 interface SingleArticlePageProps {
     params: { id: string }
@@ -14,7 +16,30 @@ const SingleArticlePage = async ({ params }: SingleArticlePageProps) => {
     const token = (await cookies()).get("jwtToken")?.value || "";
     const userPayload = verifyTokenForPage(token);
     
+    // Fetch article data using the API call .. server
     const article: SingleArticle = await getSingleArticle(params.id);
+
+    // Fetch article data using Prisma queryString .. client
+    // const article = await prisma.article.findUnique({ 
+    //     where: {id: parseInt(params.id)},
+    //     include: {
+    //         comments: {
+    //             include:{
+    //                 user: {
+    //                     select: {username: true},
+    //                 },
+    //             },
+    //             orderBy: {
+    //                 createdAt: 'desc' //asc defualt
+    //             }
+    //         },
+    //     },
+    // }) as SingleArticle;
+    // if (!article) {
+    //     notFound()
+        //or
+        // redirect("/not-found")
+    // }
 
     return (
         <section className="fix-height container m-auto w-full px-5 pt-8 md:w-3/4">
