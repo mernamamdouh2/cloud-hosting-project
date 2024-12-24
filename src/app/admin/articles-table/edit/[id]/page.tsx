@@ -1,14 +1,14 @@
+import { getSingleArticle } from '@/apiCalls/articleApiCall';
 import { Article } from '@prisma/client';
 import EditArticleForm from './EditArticleFrom';
-import { getSingleArticle } from '@/apiCalls/articleApiCall';
 
 interface EditArticlePageProps {
-    params: { id: string }
+    params: { id: string };
 }
 
-const EditArticlePage = async ({ params }: EditArticlePageProps) => {
+const EditArticlePage = async ({ params } : EditArticlePageProps) => {
     const article: Article = await getSingleArticle(params.id);
-
+    
     return (
         <section className='fix-height flex items-center justify-center px-5 lg:px-20'>
             <div className='shadow p-4 bg-purple-200 rounded w-full'>
